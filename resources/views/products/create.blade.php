@@ -21,7 +21,7 @@
                         </div>
                         <div>
                             <x-input-label for="stock" value="Stock" />
-                            <x-text-input id="stock" name="stock" type="text" class="mt-1 block w-full"
+                            <x-text-input id="stock" name="stock" type="number" class="mt-1 block w-full"
                                 :value="$product->stock ?? old('stock')" required autofocus />
                             <x-input-error class="mt-2" :messages="$errors->get('stock')" />
                         </div>

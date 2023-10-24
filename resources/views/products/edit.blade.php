@@ -22,7 +22,7 @@
                         </div>
                         <div>
                             <x-input-label for="stock" value="Stock" />
-                            <x-text-input id="stock" name="stock" type="text" class="mt-1 block w-full"
+                            <x-text-input id="stock" name="stock" type="number" class="mt-1 block w-full"
                                 :value="$product->stock ?? old('stock')" required autofocus />
                             <x-input-error class="mt-2" :messages="$errors->get('stock')" />
                         </div>
@@ -36,7 +36,7 @@
 
                         <div>
                             <x-input-label for="fault" value="Fault" />
-                            <x-textarea-input id="fault" name="fault" class="mt-1 block w-full" required
+                            <x-textarea-input id="fault" name="fault" class="mt-1 block w-full"
                                 autofocus>{{ $product->fault ?? old('fault') }}</x-textarea-input>
                             <x-input-error class="mt-2" :messages="$errors->get('fault')" />
                         </div>
