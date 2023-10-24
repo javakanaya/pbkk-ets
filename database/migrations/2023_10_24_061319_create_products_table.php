@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('type_id');
             $table->string('name');
             $table->text('description');
-            $table->text('fault');
+            $table->text('fault')->nullable();
             $table->integer('stock');
             $table->string('image');
         });

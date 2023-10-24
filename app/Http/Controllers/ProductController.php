@@ -43,11 +43,11 @@ class ProductController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|max:255',
             'description' => 'required',
-            'fault' => 'required',
+            'fault' => '',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:10048',
             'condition_id' => 'required',
             'type_id' => 'required',
-            'stock' => 'required',
+            'stock' => 'required|integer',
         ]);
 
         $imagePath = $request->file('image')->store('products', 'public');
@@ -99,11 +99,11 @@ class ProductController extends Controller
         $rules = [
             'name' => 'required|max:255',
             'description' => 'required',
-            'fault' => 'required',
+            'fault' => '',
             'image' => 'image|mimes:jpeg,png,jpg,gif|max:10048',
             'condition_id' => 'required',
             'type_id' => 'required',
-            'stock' => 'required',
+            'stock' => 'required|integer',
         ];
 
         $validatedData = $request->validate($rules);
