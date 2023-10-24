@@ -1,7 +1,9 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight flex justify-between items-center">
             {{ __('Product') }}
+            <a href="{{ route('products.create') }}"
+            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">+ ADD</a>
         </h2>
     </x-slot>
 
@@ -35,15 +37,15 @@
                                          <a href="{{ route('products.show', $product->id) }}"
                                             class="mx-2 border border-blue-500 hover:bg-blue-500 hover:text-white px-4 py-2 rounded-md">SHOW</a>
                                         {{--<a href="{{ route('dashboard.blogs.edit', $blog->id) }}"
-                                            class="mx-2 border border-yellow-500 hover:bg-yellow-500 hover:text-white px-4 py-2 rounded-md">EDIT</a>
-                                        <form method="post" action="{{ route('dashboard.blogs.destroy', $blog->id) }}"
+                                            class="mx-2 border border-yellow-500 hover:bg-yellow-500 hover:text-white px-4 py-2 rounded-md">EDIT</a> --}}
+                                        <form method="post" action="{{ route('products.destroy', $product->id) }}"
                                             class="inline">
                                             @csrf
                                             @method('delete')
                                             <button
                                                 class="mx-2 border border-red-500 hover:bg-red-500 hover:text-white px-4 py-2 rounded-md"
                                                 onclick="return confirm('Are you sure?')">DELETE</button>
-                                        </form> --}}
+                                        </form> 
                                     </td>
                                 </tr>
                             @endforeach

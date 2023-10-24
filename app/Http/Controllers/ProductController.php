@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ProductCondition;
+use App\Models\ProductType;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -24,6 +26,12 @@ class ProductController extends Controller
     public function create()
     {
         //
+        $conditions = ProductCondition::all();
+        $types = ProductType::all();
+        return view('products.create', [
+            'conditions' => $conditions,
+            'types' => $types,
+        ]);
     }
 
     /**
@@ -32,6 +40,28 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         //
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'description' => 'required',
+            'fault' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:10048',
+            'condition_id' => 'required',
+            'type_id'=>'required',
+            'stock'=>'required',
+        ]);
+
+        $imagePath = $request->file('image')->store('products', 'public');
+        $validatedData['image'] = $imagePath;
+        $validatedData['stock'] = intval($validatedData['stock']);
+
+        $create = Product::create($validatedData);
+
+        if ($create) {
+            // add flash for the success notification
+            return redirect()->route('products.index')->with('success', 'New product has been added!');
+        }
+
+        return redirect()->route('products.index')->with('Failed', 'Error creating new product');
     }
 
     /**
@@ -66,5 +96,14 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+        // delete di tabel
+        $destory = Product::destroy($product->id);
+
+        if ($destory) {
+            // add flash for the success notification
+            return redirect()->route('products.index')->with('success', 'Product has been deleted!');
+        }
+
+        return redirect()->route('products.index')->with('Failed', 'Error deleting product');
     }
 }

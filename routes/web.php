@@ -26,6 +26,11 @@ Route::get('/dashboard', function () {
 Route::resource('/products', ProductController::class, ['names' => [
     'index' => 'products.index',
     'show' => 'products.show',
+    'create' => 'products.create',
+    'store' => 'products.store',
+    'edit' => 'products.edit',
+    'update' => 'products.update',
+    'destroy' => 'products.destroy',
 ]])->middleware(['auth', 'verified']);
 
 Route::middleware('auth')->group(function () {
