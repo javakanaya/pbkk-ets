@@ -46,8 +46,8 @@ class ProductController extends Controller
             'fault' => 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:10048',
             'condition_id' => 'required',
-            'type_id'=>'required',
-            'stock'=>'required',
+            'type_id' => 'required',
+            'stock' => 'required',
         ]);
 
         $imagePath = $request->file('image')->store('products', 'public');
@@ -80,6 +80,14 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         //
+        $conditions = ProductCondition::all();
+        $types = ProductType::all();
+        return view('products.edit', [
+            'conditions' => $conditions,
+            'types' => $types,
+            'product' => $product,
+        ]);
+
     }
 
     /**
@@ -88,6 +96,37 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         //
+        $rules = [
+            'name' => 'required|max:255',
+            'description' => 'required',
+            'fault' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:10048',
+            'condition_id' => 'required',
+            'type_id' => 'required',
+            'stock' => 'required',
+        ];
+
+        $validatedData = $request->validate($rules);
+        $validatedData['stock'] = intval($validatedData['stock']);
+
+        if ($request->hasFile('image')) {
+            $request->validate([
+                'image' => 'image|mimes:jpeg,png,jpg,gif|max:10048',
+            ]);
+
+            $imagePath = $request->file('image')->store('blogs', 'public');
+            $validatedData['image'] = $imagePath;
+        }
+
+
+        $update = Product::where('id', $product->id)->update($validatedData);
+
+        if ($update) {
+            // add flash for the success notification
+            return redirect()->route('products.index')->with('success', 'Product has been updated!');
+        }
+
+        return redirect()->route('products.index')->with('Failed', 'Product updating blog');
     }
 
     /**
